@@ -1,5 +1,7 @@
 #Fruit Market Game#
-https://relcore.github.io/fruitMarket/
+
+https://billkremer.github.io/fruitMarket/
+
 ##Authors:
 ##Brian Schorn
 ##Hue Vang
