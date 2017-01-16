@@ -1,7 +1,7 @@
 //Global Variables
 var totalCash = 100;
 var gameOver = false;
-var timer = 300;
+var timer = 180;
 
 //Fruit Constructor
 function Fruit(name, currentPrice){
@@ -23,9 +23,9 @@ var fruitArray = [apple, orange, banana, grape];
 
 //When Document Loads
 $(function () {
-  //Changes the current price every 15 seconds
-  setTimeout(endGame, 300000);
-  setInterval(changePriceAll, 15000);
+  //Changes the current price every 5 seconds / make it more exciting
+  setTimeout(endGame, 181000); // 3 minutes plus a second for the last price change.
+  setInterval(changePriceAll, 5000);
   setInterval(updateTimer, 1000);
 
 // buy one share of a fruit
@@ -157,21 +157,41 @@ function endGame () {
       sellOne(fruit);
     }
   });
+
+  if (totalCash < 100){
+    $('#totalCash').css('color', 'red');
+  }else{
+    $('#totalCash').css('color', 'black');
+  }
+
   if(totalCash > 100){
+    $('#totalCash').css('color', 'green');
     $('#messages').fadeIn(0);
     $('#messages').text("Congratulations you made a profit of: $ " + (totalCash-100).toFixed(2));
-  } else {
+  } else if (totalCash < 100) {
+    $('#totalCash').css('color', 'red');
     $('#messages').fadeIn(0);
     $('#messages').text("I'm sorry, you lost: $ " + (100-totalCash).toFixed(2) + ". Don't be a fruit trader");
+  } else if (totalCash = 100) {
+    $('#totalCash').css('color', 'black');
+    $('#messages').fadeIn(0);
+    $('#messages').text("You didn't make any money. You probably shouldn't be a fruit trader");
   }
+
   $('button').closest('tr').remove();
   gameOver = true;
 }
 
 function updateTimer(){
-  if(!gameOver){
+  if(timer>0){
     timer--;
-    $('#timeLeft').text(timer);
+
+    var minutes = timer%60;
+    if (minutes < 10) {minutes = "0" + minutes}
+
+    var timeString = Math.floor(timer/60)+":" + minutes;
+
+    $('#timeLeft').text(timeString);
     if(timer < 30){
       $('#timeLeft').css('color','red').css('font-size', '1.5em');
     }
